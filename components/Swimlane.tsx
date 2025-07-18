@@ -1,44 +1,36 @@
-'use client';
+"use client";
 
-import React from 'react';
-import TaskCard from './TaskCard';
-import { Task, useTaskStore } from '@/store/useTaskStore';
-import { useDroppable } from '@dnd-kit/core';
+import { useDroppable } from "@dnd-kit/core";
+import { Task, TaskStatus } from "@/types/task";
+import TaskCard from "./TaskCard";
+import { cn } from "@/lib/utils";
 
-interface Props {
-  lane: Task['status'];
-}
+type Props = {
+  title: string;
+  status: TaskStatus;
+  tasks: Task[];
+  deleteTask: (id: string) => void;
+};
 
-export default function Swimlane({ lane }: Props) {
-  const tasks = useTaskStore((state) =>
-    state.tasks.filter(
-      (task) =>
-        task.status === lane &&
-        task.title.toLowerCase().includes(state.searchQuery.toLowerCase())
-    )
-  );
-
+export default function Swimlane({ title, status, tasks, deleteTask }: Props) {
   const { setNodeRef, isOver } = useDroppable({
-    id: lane,
+    id: status,
   });
 
-  const updateTaskStatus = useTaskStore((state) => state.updateTaskStatus);
-
-  // Handle drop logic outside component in page.tsx for simplicity
-
   return (
-    <div
-      ref={setNodeRef}
-      className={`flex flex-col bg-gray-100 p-4 rounded min-w-[250px] max-w-xs
-        ${isOver ? 'bg-blue-100' : 'bg-gray-100'}`}
-    >
-      <h2 className="text-lg font-bold mb-4">{lane}</h2>
-      {tasks.length === 0 && (
-        <p className="text-gray-500">No tasks</p>
-      )}
-      {tasks.map((task) => (
-        <TaskCard key={task.id} task={task} />
-      ))}
+    <div className="flex-1 min-w-[300px]">
+      <h2 className="text-xl font-bold text-white mb-2">{title}</h2>
+      <div
+        ref={setNodeRef}
+        className={cn(
+          "rounded-xl p-4 min-h-[400px] transition-colors",
+          isOver ? "bg-blue-100 dark:bg-blue-900" : "bg-gray-100 dark:bg-gray-800"
+        )}
+      >
+        {tasks.map((task) => (
+          <TaskCard key={task.id} task={task} onDelete={() => deleteTask(task.id)} />
+        ))}
+      </div>
     </div>
   );
 }

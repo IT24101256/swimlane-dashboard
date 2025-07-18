@@ -1,20 +1,21 @@
 [
   {
     "id": "1",
-    "title": "Design homepage",
-    "description": "Create wireframes for homepage",
-    "status": "To Do"
+    "title": "Design login page",
+    "description": "Create UI for login with validation",
+    "status": "todo"
   },
   {
     "id": "2",
-    "title": "Implement login",
-    "description": "Setup authentication with JWT",
-    "status": "In Progress"
+    "title": "Setup database",
+    "description": "Configure MongoDB Atlas cluster",
+    "status": "inprogress"
   },
   {
     "id": "3",
-    "title": "Fix bug #231",
-    "description": "Resolve crashing issue on dashboard",
-    "status": "Done"
+    "title": "Write unit tests",
+    "description": "Add Jest tests for user service",
+    "status": "done"
   }
 ]
+
